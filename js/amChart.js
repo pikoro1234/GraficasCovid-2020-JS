@@ -123,3 +123,11 @@ am4core.ready(function() {
     }
     
 }); // end am4core.ready()
+
+
+
+/*
+confirmed --> confirmados
+deaths --> muertos
+recovered --> recuperados 
+https://api.covid19api.com/total/country/{slug-pais}/status/{dinamico} */

@@ -44,7 +44,20 @@ $(document).ready(function(){
     $('#selectPais').on('change', function() {
         
         alert(this.value);
+
+        $('#datosPais').val(this.value);
     })
     /* SELECT QUE ENVIE EL VALOR SELECCIONADO */
+
+
+     /* SELECT QUE ENVIE EL VALOR SELECCIONADO */
+     $('#selectDatos').on('change', function() {
+
+        $('#datosVariables').val(this.value);
+        
+        alert(this.value);
+    })
+    /* SELECT QUE ENVIE EL VALOR SELECCIONADO */
+    
 
 })
