@@ -2,6 +2,8 @@ $(document).ready(function(){
 
     let contenedorSelect = document.querySelector(".form-select");
 
+    let titulo = document.querySelector('.titulo-dinamico');
+
 
 
     /* AJAX CONSUMIR API */
@@ -31,6 +33,17 @@ $(document).ready(function(){
     /* SELECT DINAMICO */
     const construccionSelect = (datos) =>{
 
+        function SortByName(a, b){ 
+
+            var aName = a.Country.toLowerCase(); 
+
+            var bName = b.Country.toLowerCase(); 
+
+            return ((aName < bName) ? -1 : ((aName > bName) ? 1 : 0)); 
+        } 
+
+        datos.sort(SortByName);
+
         for(let data of datos){
 
             contenedorSelect.innerHTML +=`<option value="${data.Slug}">${data.Country}</option>`;
@@ -42,22 +55,10 @@ $(document).ready(function(){
 
     /* SELECT QUE ENVIE EL VALOR SELECCIONADO */
     $('#selectPais').on('change', function() {
-        
-        alert(this.value);
+
+        $(titulo).text(this.value);
 
         $('#datosPais').val(this.value);
     })
     /* SELECT QUE ENVIE EL VALOR SELECCIONADO */
-
-
-     /* SELECT QUE ENVIE EL VALOR SELECCIONADO */
-     $('#selectDatos').on('change', function() {
-
-        $('#datosVariables').val(this.value);
-        
-        alert(this.value);
-    })
-    /* SELECT QUE ENVIE EL VALOR SELECCIONADO */
-    
-
 })

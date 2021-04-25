@@ -26,7 +26,7 @@
                 <div class="row">
                     <div class="col-lg-6 col-12">
                         <h3 class="text-left">Seleccione pais</h3>
-                        <input type="text" name="" id="datosPais">
+                        <input type="hidden" name="" id="datosPais">
                         <div class="contenedor-select">
                             <select class="form-select" id="selectPais" aria-label="Default select example">
                                 <option selected>opciones paises</option>
@@ -35,7 +35,7 @@
                     </div>   
                     <div class="col-lg-6 col-12">
                         <h3 class="text-left">Seleccione Datos</h3>
-                        <input type="text" name="" id="datosVariables">
+                        <!-- <input type="text" name="" id="datosVariables"> -->
                         <div class="contenedor-select">
                             <select class="form-select" id="selectDatos" aria-label="Default select example"> 
                                 <option selected>opcion de datos</option>
@@ -60,6 +60,8 @@
                 </div>
             </div>
             <div class="container mt-5">
+                <h2 class="text-center text-uppercase">Evolución COVID-19: <span class="titulo-dinamico">Paises</span></h2>
+                <br>
                 <div id="chartdiv"></div>
             </div>
         </div>      
