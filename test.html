@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script> 
+    <title>
+    </title>
+</head>
+<body>
+    <script>
+        $(document).ready(function(){
+            /* AJAX CONSUMIR API */
+            const __ajaxActualizar = (url) => {  
+                const ajax = $.ajax({
+                    "method":"GET",
+                    "url":url          
+                })
+                return ajax;
+            } 
+            /* AJAX CONSUMIR API */
+            function arrayConfirmed(){
+                let arrayConfirmeddatos = [];
+                /* PETICION CONFIRMED */
+                __ajaxActualizar("confirmed.json")
+                .done((info) =>{
+                    /* construccionSelect(info); */
+                    /* console.log(info) */
+                    arrayConfirmeddatos.push(info);
+                })
+                /* PETICION CONFIRMED */
+                return arrayConfirmeddatos;
+            }
+            function arrayRecovered(){
+                let arrayRecovereddatos = [];
+                /* PETICION RECUPERED */
+                __ajaxActualizar("recovered.json")
+                .done((info) =>{
+                    /* construccionSelect(info); */
+                    /* console.log(info) */
+                    arrayRecovereddatos.push(info);
+                })
+                /* PETICION RECUPERED */
+                return arrayRecovereddatos;
+            }
+            function arrayDeaths(){
+                let arrayDeathsdatos = [];
+                 /* PETICION DEATHS */
+                __ajaxActualizar("deaths.json")
+                .done((info) =>{
+                    /* construccionSelect(info); */
+                    /*  console.log(info) */
+                    arrayDeathsdatos.push(info);
+                })
+                /* PETICION DEATHS */
+                return arrayDeathsdatos;
+            }
+            let arrayUno = arrayConfirmed();
+            let arrayDos = arrayRecovered();
+            let arrayTres = arrayDeaths();
+            console.log(arrayUno);
+            console.log(arrayDos);
+            console.log(arrayTres);
+        })
+        /* pruebas de concatenacion de array */
+       /*  const arrayUno = () =>{
+            var arrayPrimero = [ ['firstName', 'Joe'], ['lastName', 'Blow'], ['age', 42], ['role', 'clerk']];
+            return arrayPrimero;
+        }
+        var elementosNew = arrayUno();
+        console.log(elementosNew); */
+       /*  var array1 = arrayUno();
+        console.log(array1);
+        var array2 = [4, 5, 6];
+        var array3 = [ ['firstName', 'Jorge'], ['lastName', 'Fiorilo'], ['age', 29], ['role', 'development']];
+        array1 = [].concat(array1, array2, array3);
+        console.log(array1); */
+    </script>
+</body>
+</html>
