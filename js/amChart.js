@@ -5,11 +5,9 @@ am4core.ready(function() {
    /* SELECT QUE ENVIE EL VALOR SELECCIONADO */
    $('#selectPais').on('change', function() {
 
-    let dato = this.value;
+    let pais = this.value;
 
-    let pais = $('#datosPais').val();
-
-    creacionGrafico(pais, dato);
+    creacionGrafico(pais);
   })  
   /* SELECT QUE ENVIE EL VALOR SELECCIONADO */
 
@@ -28,63 +26,98 @@ am4core.ready(function() {
   /* AJAX CONSUMIR API */
 
 
-  const creacionGrafico = (paises, datosEscogidos) =>{
+  const creacionGrafico = (paises) =>{
 
-    const arrayConfirmed = [];
-    const arrayRecovered = [];
-    const arrayDeathred = [];
+    const datosCovid = (url) =>{
 
-    const arrayGeneral = [];
+      let arrayDatos = [];
 
-    
-    /* PETICION CONFIRMED */
-    let urlPeticionConfirmed = `https://api.covid19api.com/total/country/${paises}/status/confirmed`
-    __ajaxActualizar(urlPeticionConfirmed)
-    .done((info) =>{
+      $.ajax({
+        "method":"GET",
+        "url":url,
+        async: false,
+      }).done((info) =>{
 
-      arrayConfirmed.push(info);
+        for(data of info){
 
-      console.log(arrayConfirmed)
-    })
-    /* PETICION CONFIRMED */
+          let objDatos = {
+            "status" : data.Status,
+            "country" : data.Country,
+            "fecha" : data.Date
+          }
 
+          arrayDatos.push(objDatos)
 
-    /* PETICION RECOVERED */
-    let urlPeticionRecovered = `https://api.covid19api.com/total/country/${paises}/status/recovered`
-    __ajaxActualizar(urlPeticionRecovered)
-    .done((info) =>{
-  
-      arrayRecovered.push(info);
+        }
+      })
 
-      console.log(arrayRecovered)
-    })
-    /* PETICION RECOVERED */
+      return arrayDatos;
 
+    }
 
-    /* PETICION DEATHED */
-    let urlPeticionDeathed = `https://api.covid19api.com/total/country/${paises}/status/deaths`
-    __ajaxActualizar(urlPeticionDeathed)
-    .done((info) =>{
-       
-      arrayDeathred.push(info);
+    let conf = datosCovid(`https://api.covid19api.com/total/country/${paises}/status/confirmed`)
 
-      console.log(arrayDeathred)
-    })
-    /* PETICION DEATHED */   
-    
-    
-    
-    /* CREACION DE OBJETOS PARA GRAFICO */
-    /* const creacionArrayMultiple = (datos) =>{
+    let recup = datosCovid(`https://api.covid19api.com/total/country/${paises}/status/recovered`)
 
-      console.log(datos)
-      for (let i = 0; i < datos.length; i++) {
-        
-        /* console.log(datos[i]); */
-        
-     /* }
+    let death = datosCovid(`https://api.covid19api.com/total/country/${paises}/status/deaths`)
+
+    console.log( conf);
+
+    console.log( recup);
+
+    console.log( death);
+
       
+    
+
+
+    /* function arrayRecovered(){
+
+      let arrayRecovereddatos = [];
+
+      let urlPeticionRecovered = `https://api.covid19api.com/total/country/${paises}/status/recovered` */
+      /* PETICION RECUPERED */
+/*       __ajaxActualizar(urlPeticionRecovered)
+      .done((info) =>{
+
+          arrayRecovereddatos.push(info);
+      }) */
+      /* PETICION RECUPERED */
+   /*    return arrayRecovereddatos;
     } */
+
+
+   /*  function arrayDeaths(){
+
+      let arrayDeathsdatos = [];
+
+      let urlPeticionDeathed = `https://api.covid19api.com/total/country/${paises}/status/deaths` */
+       /* PETICION DEATHS */
+      /* __ajaxActualizar(urlPeticionDeathed)
+      .done((info) =>{
+
+          arrayDeathsdatos.push(info);
+      }) */
+      /* PETICION DEATHS */
+    /*   return arrayDeathsdatos;
+    }
+ */
+    
+
+    /* console.log(__ajaxActualizar(urlPeticionConfirmed)) */
+
+    /* let arrayUno = arrayConfirmed();
+    let arrayDos = arrayRecovered();
+    let arrayTres = arrayDeaths(); */
+
+
+    /* console.log(arrayGeneral); */
+    /* console.log(arrayUno); */
+   /*  console.log(arrayDos);
+    console.log(arrayTres);
+ */
+    
+    
     
     
 
