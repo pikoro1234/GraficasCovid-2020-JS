@@ -3,7 +3,7 @@ am4core.ready(function() {
 
 
    /* SELECT QUE ENVIE EL VALOR SELECCIONADO */
-   $('#selectDatos').on('change', function() {
+   $('#selectPais').on('change', function() {
 
     let dato = this.value;
 
@@ -28,23 +28,65 @@ am4core.ready(function() {
   /* AJAX CONSUMIR API */
 
 
-
   const creacionGrafico = (paises, datosEscogidos) =>{
 
+    const arrayConfirmed = [];
+    const arrayRecovered = [];
+    const arrayDeathred = [];
+
+    const arrayGeneral = [];
 
     
-    /* PETICION AJAX */
-    let urlPeticion = `https://api.covid19api.com/total/country/${paises}/status/${datosEscogidos}`
-    __ajaxActualizar(urlPeticion)
+    /* PETICION CONFIRMED */
+    let urlPeticionConfirmed = `https://api.covid19api.com/total/country/${paises}/status/confirmed`
+    __ajaxActualizar(urlPeticionConfirmed)
     .done((info) =>{
 
-        console.log(info);
+      arrayConfirmed.push(info);
+
+      console.log(arrayConfirmed)
     })
-    /* PETICION AJAX */
+    /* PETICION CONFIRMED */
 
 
+    /* PETICION RECOVERED */
+    let urlPeticionRecovered = `https://api.covid19api.com/total/country/${paises}/status/recovered`
+    __ajaxActualizar(urlPeticionRecovered)
+    .done((info) =>{
+  
+      arrayRecovered.push(info);
 
-    console.log("datos son: "+paises+" y "+datosEscogidos);
+      console.log(arrayRecovered)
+    })
+    /* PETICION RECOVERED */
+
+
+    /* PETICION DEATHED */
+    let urlPeticionDeathed = `https://api.covid19api.com/total/country/${paises}/status/deaths`
+    __ajaxActualizar(urlPeticionDeathed)
+    .done((info) =>{
+       
+      arrayDeathred.push(info);
+
+      console.log(arrayDeathred)
+    })
+    /* PETICION DEATHED */   
+    
+    
+    
+    /* CREACION DE OBJETOS PARA GRAFICO */
+    /* const creacionArrayMultiple = (datos) =>{
+
+      console.log(datos)
+      for (let i = 0; i < datos.length; i++) {
+        
+        /* console.log(datos[i]); */
+        
+     /* }
+      
+    } */
+    
+    
 
       // Themes begin
       am4core.useTheme(am4themes_animated);
@@ -125,10 +167,11 @@ am4core.ready(function() {
         valueAxis.renderer.labels.template.fill = series.stroke;
         valueAxis.renderer.opposite = opposite;
       }
-      
-      createAxisAndSeries("visits", "Visits", false, "circle");
-      createAxisAndSeries("views", "Views", true, "triangle");
-      createAxisAndSeries("hits", "Hits", true, "rectangle");
+
+      /* DATOS PARA LOS OBJETOS */    
+      createAxisAndSeries("confirmed", "Confirmed", false, "circle");
+      createAxisAndSeries("recovered", "Recovered", true, "triangle");
+      createAxisAndSeries("deathed", "Deathed", true, "rectangle");
       
       // Add legend
       chart.legend = new am4charts.Legend();
@@ -143,9 +186,9 @@ am4core.ready(function() {
         firstDate.setDate(firstDate.getDate() - 100);
         firstDate.setHours(0, 0, 0, 0);
       
-        var visits = 1600;
-        var hits = 2900;
-        var views = 8700;
+        var confirmed = 1600;
+        var recovered = 2900;
+        var deathed = 8700;
       
         for (var i = 0; i < 15; i++) {
           // we create date objects here. In your data, you can have date strings
@@ -154,19 +197,20 @@ am4core.ready(function() {
           var newDate = new Date(firstDate);
           newDate.setDate(newDate.getDate() + i);
       
-          visits += Math.round((Math.random()<0.5?1:-1)*Math.random()*10);
-          hits += Math.round((Math.random()<0.5?1:-1)*Math.random()*10);
-          views += Math.round((Math.random()<0.5?1:-1)*Math.random()*10);
+          confirmed += Math.round((Math.random()<0.5?1:-1)*Math.random()*10);
+          recovered += Math.round((Math.random()<0.5?1:-1)*Math.random()*10);
+          deathed += Math.round((Math.random()<0.5?1:-1)*Math.random()*10);
       
           chartData.push({
             date: newDate,
-            visits: visits,
-            hits: hits,
-            views: views
+            confirmed: confirmed,
+            recovered: recovered,
+            deathed: deathed
           });
         }
         return chartData;
       }
+      /* DATOS PARA LOS OBJETOS */
 
   }
     
