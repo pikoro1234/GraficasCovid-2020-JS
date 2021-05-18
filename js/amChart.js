@@ -41,9 +41,10 @@ am4core.ready(function() {
         for(data of info){
 
           let objDatos = {
-            "status" : data.Status,
             "country" : data.Country,
-            "fecha" : data.Date
+            "status" : data.Status,
+            "fecha" : data.Date,
+            "cases" : data.Cases
           }
 
           arrayDatos.push(objDatos)
@@ -55,71 +56,11 @@ am4core.ready(function() {
 
     }
 
-    let conf = datosCovid(`https://api.covid19api.com/total/country/${paises}/status/confirmed`)
+    let confirmados = datosCovid(`https://api.covid19api.com/total/country/${paises}/status/confirmed`)
 
-    let recup = datosCovid(`https://api.covid19api.com/total/country/${paises}/status/recovered`)
+    let recuperados = datosCovid(`https://api.covid19api.com/total/country/${paises}/status/recovered`)
 
-    let death = datosCovid(`https://api.covid19api.com/total/country/${paises}/status/deaths`)
-
-    console.log( conf);
-
-    console.log( recup);
-
-    console.log( death);
-
-      
-    
-
-
-    /* function arrayRecovered(){
-
-      let arrayRecovereddatos = [];
-
-      let urlPeticionRecovered = `https://api.covid19api.com/total/country/${paises}/status/recovered` */
-      /* PETICION RECUPERED */
-/*       __ajaxActualizar(urlPeticionRecovered)
-      .done((info) =>{
-
-          arrayRecovereddatos.push(info);
-      }) */
-      /* PETICION RECUPERED */
-   /*    return arrayRecovereddatos;
-    } */
-
-
-   /*  function arrayDeaths(){
-
-      let arrayDeathsdatos = [];
-
-      let urlPeticionDeathed = `https://api.covid19api.com/total/country/${paises}/status/deaths` */
-       /* PETICION DEATHS */
-      /* __ajaxActualizar(urlPeticionDeathed)
-      .done((info) =>{
-
-          arrayDeathsdatos.push(info);
-      }) */
-      /* PETICION DEATHS */
-    /*   return arrayDeathsdatos;
-    }
- */
-    
-
-    /* console.log(__ajaxActualizar(urlPeticionConfirmed)) */
-
-    /* let arrayUno = arrayConfirmed();
-    let arrayDos = arrayRecovered();
-    let arrayTres = arrayDeaths(); */
-
-
-    /* console.log(arrayGeneral); */
-    /* console.log(arrayUno); */
-   /*  console.log(arrayDos);
-    console.log(arrayTres);
- */
-    
-    
-    
-    
+    let muertos = datosCovid(`https://api.covid19api.com/total/country/${paises}/status/deaths`)
 
       // Themes begin
       am4core.useTheme(am4themes_animated);
@@ -134,7 +75,7 @@ am4core.ready(function() {
       chart.colors.step = 2;
       
       // Add data
-      chart.data = generateChartData();
+      chart.data = generateChartData(confirmados, recuperados, muertos);
       
       // Create axes
       var dateAxis = chart.xAxes.push(new am4charts.DateAxis());
@@ -213,32 +154,32 @@ am4core.ready(function() {
       chart.cursor = new am4charts.XYCursor();
       
       // generate some random data, quite different range
-      function generateChartData() {
+      function generateChartData(confirmados, recuperados, muertos) {
+
         var chartData = [];
-        var firstDate = new Date();
+       /*  var firstDate = new Date();
         firstDate.setDate(firstDate.getDate() - 100);
-        firstDate.setHours(0, 0, 0, 0);
+        firstDate.setHours(0, 0, 0, 0); */
       
-        var confirmed = 1600;
-        var recovered = 2900;
-        var deathed = 8700;
-      
-        for (var i = 0; i < 15; i++) {
+        for (var i = 0; i < confirmados.length; i++) {
+
+          /* console.log(confirmados[i].fecha); */
+          console.log(newDate);
           // we create date objects here. In your data, you can have date strings
           // and then set format of your dates using chart.dataDateFormat property,
           // however when possible, use date objects, as this will speed up chart rendering.
-          var newDate = new Date(firstDate);
-          newDate.setDate(newDate.getDate() + i);
+          var newDate = new Date(confirmados[i].fecha);
+          newDate.setDate(newDate.getDate());
       
-          confirmed += Math.round((Math.random()<0.5?1:-1)*Math.random()*10);
+          /* confirmed += Math.round((Math.random()<0.5?1:-1)*Math.random()*10);
           recovered += Math.round((Math.random()<0.5?1:-1)*Math.random()*10);
-          deathed += Math.round((Math.random()<0.5?1:-1)*Math.random()*10);
+          deathed += Math.round((Math.random()<0.5?1:-1)*Math.random()*10); */
       
           chartData.push({
             date: newDate,
-            confirmed: confirmed,
-            recovered: recovered,
-            deathed: deathed
+            confirmed: confirmados[i].cases,
+            recovered: recuperados[i].cases,
+            deathed: muertos[i].cases
           });
         }
         return chartData;
