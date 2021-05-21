@@ -1,32 +1,50 @@
 am4core.ready(function() {
 
+    $("#desde").prop('disabled', true);
 
+    $("#hasta").prop('disabled', true);
 
    /* SELECT QUE ENVIE EL VALOR SELECCIONADO */
    $('#selectPais').on('change', function() {
 
     let pais = this.value;
 
-    creacionGrafico(pais);
+    let desde = $('#desde').val();
+
+    let hasta = $('#hasta').val();
+
+    $("#desde").prop('disabled', false);
+
+    $("#hasta").prop('disabled', true);
+
+    creacionGrafico(pais, desde, hasta);
+
   })  
   /* SELECT QUE ENVIE EL VALOR SELECCIONADO */
 
+  /* ONCHANGE DE FECHAS */
+  $('#desde').on('change', function() {
+
+    $("#hasta").prop('disabled', false);
+
+  })
+
+  $('#hasta').on('change', function() {
+
+    console.log("ejec la funcion")
+
+    let pais = $('#selectPais').val();
+
+    let desde = $('#desde').val();
+
+    let hasta = $('#hasta').val();
+
+    creacionGrafico(pais, desde, hasta);
+  })
+  /* ONCHANGE DE FECHAS */
 
 
-  /* AJAX CONSUMIR API */
-  const __ajaxActualizar = (url) => {  
-
-    const ajax = $.ajax({
-        "method":"GET",
-        "url":url       
-    })
-
-    return ajax;
-  } 
-  /* AJAX CONSUMIR API */
-
-
-  const creacionGrafico = (paises) =>{
+  const creacionGrafico = (paises, desde, hasta) =>{
 
     const datosCovid = (url) =>{
 
@@ -52,7 +70,24 @@ am4core.ready(function() {
         }
       })
 
-      return arrayDatos;
+      if (desde.length > 0 && hasta.length > 0) {
+
+        const fechaUno = new Date(desde);
+
+        const fechaUnoConvert = fechaUno.toISOString()
+
+        const fechaDos = new Date(hasta);
+
+        const fechaDosConvert = fechaDos.toISOString()
+      
+        let datosFinales = arrayDatos.filter(item => item.fecha > fechaUnoConvert && item.fecha < fechaDosConvert)
+
+        return datosFinales;
+  
+      }else{
+
+        return arrayDatos;
+      }
 
     }
 
@@ -163,8 +198,6 @@ am4core.ready(function() {
       
         for (var i = 0; i < confirmados.length; i++) {
 
-          /* console.log(confirmados[i].fecha); */
-          console.log(newDate);
           // we create date objects here. In your data, you can have date strings
           // and then set format of your dates using chart.dataDateFormat property,
           // however when possible, use date objects, as this will speed up chart rendering.
